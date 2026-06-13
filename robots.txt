@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pdftools-online.netlify.app/sitemap.xml
+Sitemap: https://468272921-cloud.github.io/pdftools/sitemap.xml
