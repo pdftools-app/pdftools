@@ -460,27 +460,29 @@ function showPreview() {
   const grid = document.getElementById('previewGrid');
   area.style.display = 'block';
 
+  const colors = ['#667eea','#f59e0b','#10b981','#ef4444','#8b5cf6','#ec4899','#06b6d4','#f97316'];
   const totalPages = STATE.files.reduce((sum, f) => sum + (f.pages || 0), 0);
 
-  grid.innerHTML = `
-    <div style="width:100%;text-align:center;margin-bottom:14px;font-size:13px;color:#64748b">
-      合并顺序确认 · 共 ${STATE.files.length} 个文件 · 预计 ${totalPages} 页
-    </div>
-    <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px">
-    ${STATE.files.map((f, i) => {
-      const sizeStr = f.size > 1024 * 1024
-        ? (f.size / 1024 / 1024).toFixed(1) + ' MB'
-        : (f.size / 1024).toFixed(0) + ' KB';
-      return `
-        <div class="preview-card" id="pcard-${i}" style="flex-shrink:0;min-width:150px">
-          <div style="width:150px;height:100px;background:linear-gradient(135deg,#667eea${10+i*8},#764ba2${10+i*8});border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;margin-bottom:8px">
-            <div style="font-size:36px;font-weight:800">${i + 1}</div>
-            <div style="font-size:11px">${f.pages || '?'} 页 · ${sizeStr}</div>
-          </div>
-          <div class="pname" style="font-size:12px;text-align:center" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</div>
-        </div>`;
-    }).join('')}
-    </div>`;
+  grid.innerHTML = ''
+    + '<div style="width:100%;text-align:center;margin-bottom:14px;font-size:13px;color:#64748b">'
+    + '合并顺序确认 · 共 ' + STATE.files.length + ' 个文件 · 预计 ' + totalPages + ' 页'
+    + '</div>'
+    + '<div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px">'
+    + STATE.files.map((f, i) => {
+        const sizeStr = f.size > 1024 * 1024
+          ? (f.size / 1024 / 1024).toFixed(1) + ' MB'
+          : (f.size / 1024).toFixed(0) + ' KB';
+        const bg = colors[i % colors.length];
+        return ''
+          + '<div class="preview-card" id="pcard-' + i + '" style="flex-shrink:0;min-width:150px">'
+          + '<div style="width:150px;height:100px;background:' + bg + ';border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;margin-bottom:8px">'
+          + '<div style="font-size:36px;font-weight:800">' + (i + 1) + '</div>'
+          + '<div style="font-size:11px">' + (f.pages || '?') + ' 页 · ' + sizeStr + '</div>'
+          + '</div>'
+          + '<div class="pname" style="font-size:12px;text-align:center" title="' + escapeHtml(f.name) + '">' + escapeHtml(f.name) + '</div>'
+          + '</div>';
+      }).join('')
+    + '</div>';
 }
 
 function hidePreview() {
